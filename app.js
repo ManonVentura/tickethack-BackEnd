@@ -5,8 +5,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-require('./models/connection')
-const Trip = require('./models/tripss');
+var tripsRouter = require('./routes/trips');
+require('./models/connection');
+const Trip = require('./models/trips');
+
 
 var app = express();
 const cors = require('cors');
@@ -19,6 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/trips', tripsRouter);
 app.use('/users', usersRouter);
 
 module.exports = app;

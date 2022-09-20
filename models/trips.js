@@ -8,6 +8,6 @@ const tripssSchema = mongoose.Schema({
     price: Number
 });
 
-const Trip = mongoose.model('tripss', tripssSchema)
+const Trip = mongoose.model('trips', tripssSchema)
 
 module.exports = Trip
