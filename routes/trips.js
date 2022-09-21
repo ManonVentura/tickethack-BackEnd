@@ -3,11 +3,11 @@ var router = express.Router();
 const moment = require('moment');
 require('../models/connection');
 const Trip = require('../models/trips');
+const Cart = require('../models/cart')
 
 /* GET all the trips with 3 parameters : departure, arrival and date. */
-//! ajouter la date!!!!!!!
-router.get('/:departure/:arrival/:date', function(req, res, next) {
-  const { departure, arrival, date } = req.params
+router.post('/', function(req, res, next) {
+  const { departure, arrival, date } = req.body
   Trip.find({
     departure: { $regex: new RegExp(departure, 'i')}, 
     arrival: { $regex: new RegExp(arrival, 'i')},  
@@ -25,5 +25,7 @@ router.get('/:departure/:arrival/:date', function(req, res, next) {
       }
    })
 });
+
+
 
 module.exports = router;
