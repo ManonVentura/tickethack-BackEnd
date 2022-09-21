@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
     departure: { $regex: new RegExp(departure, 'i')}, 
     arrival: { $regex: new RegExp(arrival, 'i')},  
     date: { $gte : moment(date).startOf('day'), $lte : moment(date).endOf('day')} 
-})
+  })
   .then(dbData => {
     if (dbData.length === 0) {
       res.json({ result: false, error: `Sorry there is no trip available between ${departure} and ${arrival} at those dates` })
@@ -23,6 +23,8 @@ router.post('/', function(req, res, next) {
       res.json({trips : dbData})
     
       }
+
+      
    })
 });
 

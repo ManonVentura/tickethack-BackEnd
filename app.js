@@ -8,8 +8,7 @@ var usersRouter = require('./routes/users');
 var tripsRouter = require('./routes/trips');
 var cartRouter = require('./routes/cart');
 require('./models/connection');
-const Trip = require('./models/trips');
-const Cart = require('./models/cart')
+
 
 
 var app = express();

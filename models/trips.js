@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const tripssSchema = mongoose.Schema({
-    _id: String,
     departure: String,
     arrival: String,
     date: Date,
