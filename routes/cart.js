@@ -5,7 +5,8 @@ require("../models/connection");
 const Trip = require("../models/trips");
 const Cart = require("../models/cart");
 
-/* POST add the selected trip to dbCart, same structure as Trip + is payed default false*/
+
+/* ----------- Adding one trip to Cart -----------*/
 
 router.post("/", (req, res) => {
 const {id} = req.body
@@ -21,6 +22,59 @@ const {id} = req.body
       });
 });
 
+/* ----------- Delete 1 item from the cart -----------*/
+router.delete('/', (req, res) => {
+  const {id} = req.body
+  Cart.deleteOne({id}).then(() => {
+    Cart.find().then(data => {
+      console.log(data)
+      res.json({result : true, Cart: data})
+    })
+  })
+   
+  }
+)
+
+/* ----------- Updating paiement for 1 trip ==> booking, while only displaying the trips not paid in cart -----------*/
+//! a réessayer pour voir si uniquement les 
+router.post('/paiement', (req,res) => {
+  const {id} = req.body
+  Cart.updateOne({id}, {ispaid: true}).then(() =>
+  Cart.find({ispaid: false}).then(data => {
+    console.log(data)
+    res.json({result: true, Cart: data})
+  }))
+})
+
+/* ----------- Updating paiement for all trips ==> booking -----------*/
+router.post('/bookingall', (req,res) => {
+  Cart.find().then(data => {
+    // for (let i = 0; i < data.length; i++) {
+      Cart.updateMany({ispaid : false}, {ispaid : true}).then(() => 
+      Cart.find({ispaid: true}).then(data => {
+        res.json({result: true, booking: data})
+      }))
+    // }
+  })
+})
+
+/* ----------- Displaying only the trips paid in booking -----------*/
+router.get('/booked', (req,res) => {
+  Cart.find({ispaid: true}).then(data => {
+    res.json({result: true, booking: data})
+  })
+})
+
+/* ----------- Updating paiement for one trip ==> booking -----------*/
+//! cette route est fausse, elle trouve juste le premier is paid true
+// router.get('/bookingone', (req,res) => {
+//   Cart.find({ispaid: true}).then(data => {
+//     res.json({result: true, Booking: data})
+
+//   })
+// })
+
+
 
 router.get("/",async  (req, res) => {
 
@@ -28,16 +82,12 @@ let result = await Cart.find().populate('trip')
 
 console.log(result);
 
-res.json({})
+res.json({result: result})
     });
 
 
 
-/* When is payed = true, DELETE from Cart and POST add to Booking (db?) */
-//! OR
-/* display in cart only the trips in dbCart with is payed false */
 
-/* display in booking only the trips in dbCart with is payed true */
 
 /* */
 
