@@ -37,7 +37,7 @@ router.delete('/', (req, res) => {
 
 /* ----------- Updating paiement for 1 trip ==> booking, while only displaying the trips not paid in cart -----------*/
 //! a réessayer pour voir si uniquement les 
-router.post('/paiement', (req,res) => {
+router.put('/paiement', (req,res) => {
   const {id} = req.body
   Cart.updateOne({id}, {ispaid: true}).then(() =>
   Cart.find({ispaid: false}).then(data => {
@@ -47,7 +47,7 @@ router.post('/paiement', (req,res) => {
 })
 
 /* ----------- Updating paiement for all trips ==> booking -----------*/
-router.post('/bookingall', (req,res) => {
+router.put('/bookingall', (req,res) => {
   Cart.find().then(data => {
     // for (let i = 0; i < data.length; i++) {
       Cart.updateMany({ispaid : false}, {ispaid : true}).then(() => 
